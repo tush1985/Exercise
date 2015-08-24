@@ -157,6 +157,11 @@ namespace Havas_Exercise.Controllers
                 catch (System.Web.Security.MembershipCreateUserException ex)
                 {
                     //Please write the error in log file
+                    RoleModel role = new RoleModel();
+
+                    var userroles = role.GetRoles();
+
+                    ViewData["UserRoles"] = userroles;
                     ModelState.AddModelError("", "Sorry the username alerady exists");
                 }
 
