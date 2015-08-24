@@ -1,0 +1,28 @@
+﻿@model List<Havas_Exercise.Models.RoleModel>
+
+
+<h2>User Roles</h2>
+
+<table>
+    <tr>
+        <td>Existing Role</td>
+    </tr>
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.RoleName</td>
+        </tr>
+    }
+</table>
+
+@*calling apartial view*@
+<p>
+    <div>
+        @Html.Partial("_CreateRole", new Havas_Exercise.Models.RoleModel())
+
+    </div>
+
+</p>
+
+
+

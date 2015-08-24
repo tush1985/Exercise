@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Havas_Exercise.Models.CommissionModel>
+
+@{
+    ViewBag.Title = "Index";
+    
+    //Create a PaymentStatus vaue
+    List<SelectListItem>
+        PayMentStatus = new List<SelectListItem>
+            ()
+            {
+            new SelectListItem()
+            {
+            Text="Created",
+            Value="1"
+            } ,
+            new SelectListItem()
+            {
+            Text="Verified",
+            Value="2"
+            },
+            new SelectListItem()
+            {
+            Text="Rejected",
+            Value="3"
+            },
+            new SelectListItem()
+            {
+            Text="Awaiting Payent",
+            Value="4"
+            },
+            new SelectListItem()
+            {
+            Text="Paid",
+            Value="5"
+            },
+            new SelectListItem()
+            {
+            Text="Refunded",
+            Value="6"
+            }
+            };
+
+
+
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 10);
+}
+<h1> Commission Management </h1>
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    
+    @Html.ValidationSummary(true, "Report creation was unsuccessful. Please correct the errors and try again.")
+    @Html.AntiForgeryToken()
+    <p>
+        <h5><b>Commission Report By Date</b></h5>
+        <table>
+            <tr>
+                
+                <td>StartDate: <input type="date" id="StartDate" name="StartDate" /></td>
+                <td>EndDate: <input type="date" id="EndDate" name="EndDate" /></td>
+                <td><input type="submit" value="Filter" /></td>
+            </tr>
+        </table>
+    </p>
+}
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+
+    @Html.ValidationSummary(true, "Report creation was unsuccessful. Please correct the errors and try again.")
+    @Html.AntiForgeryToken()
+    <p>
+        <h5><b>Commission Report By PaymentStatus</b></h5>
+        <table>
+            <tr>
+
+                <td>PaymentStatus: @Html.DropDownList("PaymentStatus", PayMentStatus)</td>                
+                <td><input type="submit" value="Filter" /></td>
+            </tr>
+        </table>
+    </p>
+}
+
+
+
+<div>
+    @grid.GetHtml(
+    tableStyle: "webgrid",
+    headerStyle: "webgrid-header",
+    footerStyle: "webgrid-footer",
+   alternatingRowStyle: "webgrid-alternating-row",
+   selectedRowStyle: "webgrid-selected-row",
+   rowStyle: "webgrid-row-style",
+    columns: grid.Columns(
+
+          grid.Column("CommissionID", "ID"),
+          grid.Column("CustomerID", "CustomerID"),  
+          grid.Column("DealerName", "DealerName"),          
+          grid.Column("ProductID", "ProductID"),
+          grid.Column("CommissionAmount", "CommissionAmount"),
+          grid.Column("PaymentStatus", "PaymentStatus"),     
+     grid.Column("CreatedDate", "CreatedDate"),
+     grid.Column("ModifiedDate", "ModifiedDate")
+    
+))
+</div>
+
+@*adding a style for webgrid, but we can put this in css file, and css file needs to be load after bootstrap*@
+
+
+<style>
+    table {
+        font-family: verdana,arial,sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+
+        table th {
+            BACKGROUND: #b5cfd2;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #999999;
+        }
+
+        table td {
+            background: #E0B230;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #999999;
+        }
+
+    .foot {
+        text-align: center;
+    }
+</style>
